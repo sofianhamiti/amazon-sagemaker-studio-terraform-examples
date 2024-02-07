@@ -29,6 +29,7 @@ variable "security_group_ids" {
   type        = list(string)
 }
 
-variable "lifecycle_config_arn" {
-  type        = string
+variable "lifecycle_config_arns" {
+  type        = list(string)
+  default = null
 }

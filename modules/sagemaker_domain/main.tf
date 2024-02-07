@@ -16,5 +16,18 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
         maximum_ebs_volume_size_in_gb = 1024
       }
     }
+    
+    # code_editor_app_settings {
+    #   lifecycle_config_arns = var.lifecycle_config_arns # Optional Lifecycle Configs
+    # }
+    
+    # OPTIONAL LIFECYCLE CONFIG FOR CODE EDITOR
+    dynamic "code_editor_app_settings" {
+      for_each = var.lifecycle_config_arns != null ? [1] : [] 
+
+      content {
+        lifecycle_config_arns = var.lifecycle_config_arns 
+      }
+    }    
   }
 }
