@@ -19,7 +19,7 @@ data "local_file" "lifecycle_script" {
 }
 
 resource "aws_sagemaker_studio_lifecycle_config" "code_editor" {
-  studio_lifecycle_config_name = "example2"
+  studio_lifecycle_config_name = "example4"
   studio_lifecycle_config_app_type = "CodeEditor" # 'CodeEditor'|'JupyterLab'
   studio_lifecycle_config_content = base64encode(data.local_file.lifecycle_script.content)
 }
