@@ -50,3 +50,13 @@ variable "app_network_access_type" {
 variable "user_names" {
   type        = list(string)
 }
+
+# Optional Lifecyle Config Script For Code Editor
+variable "vscode_config_script" {
+  type        = string
+}
+
+# Enforced Lifecyle Config Script For Code Editor
+variable "vscode_autoshutdown_script" {
+  type        = string
+}
