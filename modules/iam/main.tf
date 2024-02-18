@@ -11,7 +11,7 @@ data "aws_iam_policy_document" "sagemaker_domain_assume_role_policy" {
     actions = ["sts:AssumeRole"]
     principals {
       type        = "Service"
-      identifiers = ["sagemaker.amazonaws.com"]
+      identifiers = ["sagemaker.amazonaws.com", "lambda.amazonaws.com"]
     }
   }
 }

@@ -16,10 +16,12 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
         maximum_ebs_volume_size_in_gb = 1024
       }
     }
-    
-    # code_editor_app_settings {
-    #   lifecycle_config_arns = var.lifecycle_config_arns # Optional Lifecycle Configs
-    # }
+    custom_file_system_config {
+      efs_file_system_config {
+        file_system_id = "fs-00cceb58edb305726"
+        file_system_path = "/home"
+      }
+    }
     
     # OPTIONAL LIFECYCLE CONFIG FOR CODE EDITOR
     dynamic "code_editor_app_settings" {
@@ -29,5 +31,9 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
         lifecycle_config_arns = var.lifecycle_config_arns 
       }
     }    
+  }
+
+  default_space_settings {
+    execution_role = var.execution_role_arn
   }
 }
