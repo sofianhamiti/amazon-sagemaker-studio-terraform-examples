@@ -32,8 +32,4 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
       }
     }    
   }
-
-  default_space_settings {
-    execution_role = var.execution_role_arn
-  }
 }
