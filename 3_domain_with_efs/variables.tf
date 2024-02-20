@@ -60,3 +60,14 @@ variable "vscode_config_script" {
 variable "vscode_autoshutdown_script" {
   type        = string
 }
+
+# EFS Filesystem
+variable "efs_folder_path" {
+  type        = string
+  default = null
+}
+
+variable "lambda_mount_path" {
+  type        = string
+  default = null
+}

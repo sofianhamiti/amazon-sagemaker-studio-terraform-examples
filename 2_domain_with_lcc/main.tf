@@ -15,7 +15,7 @@ module "sagemaker_domain_vpc" {
 
 # Lifecycle config
 data "local_file" "lifecycle_script" {
-  filename = "${path.module}/lifecycle_config_scripts/${var.vscode_config_script}"
+  filename = "../lifecycle_config_scripts/${var.vscode_config_script}"
 }
 
 resource "aws_sagemaker_studio_lifecycle_config" "code_editor" {

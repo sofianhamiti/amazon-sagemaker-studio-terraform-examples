@@ -16,13 +16,18 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
         maximum_ebs_volume_size_in_gb = 1024
       }
     }
-    custom_file_system_config {
-      efs_file_system_config {
-        file_system_id = "fs-00cceb58edb305726"
-        file_system_path = "/home"
+
+    # OPTIONALLY ATTACHED EFS FILE SYSTEM
+    dynamic "custom_file_system_config" {
+      for_each = var.efs_file_system_id != null && var.efs_folder_path != null ? [1] : []
+      content {
+        efs_file_system_config {
+          file_system_id = var.efs_file_system_id
+          file_system_path = var.efs_folder_path
+        }
       }
     }
-    
+
     # OPTIONAL LIFECYCLE CONFIG FOR CODE EDITOR
     dynamic "code_editor_app_settings" {
       for_each = var.lifecycle_config_arns != null ? [1] : [] 

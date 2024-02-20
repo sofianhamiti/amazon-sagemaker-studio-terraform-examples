@@ -33,3 +33,13 @@ variable "lifecycle_config_arns" {
   type        = list(string)
   default = null
 }
+
+variable "efs_file_system_id" {
+  type        = string
+  default = null
+}
+
+variable "efs_folder_path" {
+  type        = string
+  default = null
+}

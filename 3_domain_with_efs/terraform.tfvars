@@ -21,3 +21,7 @@ vscode_autoshutdown_script = "  autoshutdown.sh"
 
 # SAGEMAKER USERS
 user_names = ["user1", "user2"]
+
+# EFS
+efs_folder_path = "/home"
+lambda_mount_path = "/mnt/lambda"
