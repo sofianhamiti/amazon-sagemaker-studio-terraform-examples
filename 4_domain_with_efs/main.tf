@@ -48,7 +48,6 @@ module "sagemaker_user" {
   user_name = each.value
 }
 
-
 # EFS file system
 resource "aws_efs_file_system" "sagemaker_efs" {
   encrypted = true
@@ -74,12 +73,12 @@ resource "aws_efs_access_point" "access_point_for_lambda" {
 # Lambda Function handling the EFS folder creation
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_file = "lambda_code/handler.py"
-  output_path = "lambda_code/lambda.zip"
+  source_file = "../lambda_code/handler.py"
+  output_path = "../lambda_code/lambda.zip"
 }
 
 resource "aws_lambda_function" "create_folder_in_efs" {
-  filename      = "lambda_code/lambda.zip"
+  filename      = "../lambda_code/lambda.zip"
   function_name = "sagemaker-efs-handler"
   role          = module.sagemaker_domain_execution_role.role_arn
   handler       = "handler.lambda_handler"

@@ -23,5 +23,5 @@ vscode_autoshutdown_script = "  autoshutdown.sh"
 user_names = ["user1", "user2"]
 
 # EFS
-efs_folder_path = "/home"
+efs_folder_path = "/shared"
 lambda_mount_path = "/mnt/lambda"
