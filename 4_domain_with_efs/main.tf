@@ -20,7 +20,7 @@ data "local_file" "lifecycle_script" {
 
 resource "aws_sagemaker_studio_lifecycle_config" "code_editor" {
   studio_lifecycle_config_name = "vscode-config"
-  studio_lifecycle_config_app_type = "CodeEditor" # 'CodeEditor'|'JupyterLab'
+  studio_lifecycle_config_app_type = "CodeEditor" # 'CodeEditor' or 'JupyterLab'
   studio_lifecycle_config_content = base64encode(data.local_file.lifecycle_script.content)
 }
 
@@ -73,12 +73,12 @@ resource "aws_efs_access_point" "access_point_for_lambda" {
 # Lambda Function handling the EFS folder creation
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_file = "../lambda_code/handler.py"
-  output_path = "../lambda_code/lambda.zip"
+  source_file = "../lambda_efs_code/handler.py"
+  output_path = "../lambda_efs_code/lambda.zip"
 }
 
 resource "aws_lambda_function" "create_folder_in_efs" {
-  filename      = "../lambda_code/lambda.zip"
+  filename      = "../lambda_efs_code/lambda.zip"
   function_name = "sagemaker-efs-handler"
   role          = module.sagemaker_domain_execution_role.role_arn
   handler       = "handler.lambda_handler"
