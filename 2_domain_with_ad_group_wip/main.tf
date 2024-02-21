@@ -25,12 +25,3 @@ module "sagemaker_domain" {
   execution_role_arn    = module.sagemaker_domain_execution_role.role_arn
   security_group_ids    = module.sagemaker_domain_vpc.security_group_ids
 }
-
-# Loop through list of users for creation
-# Create SageMaker users for the domain, looping through a list of user names
-module "sagemaker_user" {
-  for_each  = { for user in var.user_names : user => user }
-  source    = "../modules/sagemaker_user"
-  domain_id = module.sagemaker_domain.domain_id
-  user_name = each.value
-}
