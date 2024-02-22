@@ -13,19 +13,6 @@ module "sagemaker_domain_vpc" {
   availability_zones   = var.availability_zones
 }
 
-# Lifecycle config
-# Read the content of a local file for the lifecycle configuration
-data "local_file" "lifecycle_script" {
-  filename = "../lifecycle_config_scripts/${var.vscode_config_script}"
-}
-
-# Create a SageMaker Studio Lifecycle Configuration for the CodeEditor app type
-resource "aws_sagemaker_studio_lifecycle_config" "code_editor" {
-  studio_lifecycle_config_name     = "vscode-config"
-  studio_lifecycle_config_app_type = "CodeEditor" # 'CodeEditor' or 'JupyterLab'
-  studio_lifecycle_config_content  = base64encode(data.local_file.lifecycle_script.content)
-}
-
 # Studio Domain
 # Create the SageMaker domain, associating it with the VPC, execution role, security groups, and lifecycle configuration
 module "sagemaker_domain" {
@@ -47,4 +34,41 @@ module "sagemaker_user" {
   source    = "../modules/sagemaker_user"
   domain_id = module.sagemaker_domain.domain_id
   user_name = each.value
+}
+
+# Lifecycle configs
+# Read the content of a local file for the lifecycle configuration
+data "local_file" "lifecycle_script" {
+  filename = "../lifecycle_config_scripts/${var.vscode_config_script}"
+}
+
+# Create a SageMaker Studio Lifecycle Configuration for the CodeEditor app type
+resource "aws_sagemaker_studio_lifecycle_config" "code_editor" {
+  studio_lifecycle_config_name     = "vscode-config"
+  studio_lifecycle_config_app_type = "CodeEditor" # 'CodeEditor' or 'JupyterLab'
+  studio_lifecycle_config_content  = base64encode(data.local_file.lifecycle_script.content)
+}
+
+# Custom images
+# Create ECR repository
+resource "aws_ecr_repository" "sagemaker_ecr_repository" {
+  name                 = var.ecr_repository_name
+}
+
+# Build and push Docker image to ECR
+resource "null_resource" "docker_build_and_push" {
+  provisioner "local-exec" {
+    command = file("../custom_container_image/build_and_push_image.sh")
+    
+    environment = {
+      ECR_REPOSITORY_URL = "${aws_ecr_repository.sagemaker_repository.repository_url}"
+      IMAGE_TAG          = "${sha256(file("${path.module}/build_and_push_image.sh"))}"
+    }
+  }
+
+  triggers = {
+    "run_at" = timestamp()
+  }
+
+  depends_on = [aws_ecr_repository.sagemaker_ecr_repository]
 }

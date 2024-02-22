@@ -12,16 +12,15 @@ availability_zones = ["eu-west-1a", "eu-west-1b"]
 
 # SAGEMAKER DOMAIN
 domain_name = "sagemaker-domain"
-auth_mode = "SSO"
+auth_mode = "IAM"
 app_network_access_type = "VpcOnly"
-
-# CODE EDITOR CONFIG
-vscode_config_script = "apply_vscode_config.sh"
-vscode_autoshutdown_script = "  autoshutdown.sh"
 
 # SAGEMAKER USERS
 user_names = ["user1", "user2"]
 
-# EFS
-efs_folder_path = "/shared"
-lambda_mount_path = "/mnt/lambda"
+# LIFECYCLE CONFIGS
+vscode_config_script = "apply_vscode_config.sh"
+vscode_autoshutdown_script = "  autoshutdown.sh"
+
+# CUSTOM IMAGES
+ecr_repository_name = "test-repo"

@@ -46,28 +46,3 @@ variable "app_network_access_type" {
   type        = string
 }
 
-# User
-variable "user_names" {
-  type        = list(string)
-}
-
-# Optional Lifecyle Config Script For Code Editor
-variable "vscode_config_script" {
-  type        = string
-}
-
-# Enforced Lifecyle Config Script For Code Editor
-variable "vscode_autoshutdown_script" {
-  type        = string
-}
-
-# EFS Filesystem
-variable "efs_folder_path" {
-  type        = string
-  default = null
-}
-
-variable "lambda_mount_path" {
-  type        = string
-  default = null
-}

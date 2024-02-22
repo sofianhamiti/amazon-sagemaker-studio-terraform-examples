@@ -61,13 +61,7 @@ variable "vscode_autoshutdown_script" {
   type        = string
 }
 
-# EFS Filesystem
-variable "efs_folder_path" {
+# Enforced Lifecyle Config Script For Code Editor
+variable "ecr_repository_name" {
   type        = string
-  default = null
-}
-
-variable "lambda_mount_path" {
-  type        = string
-  default = null
 }
