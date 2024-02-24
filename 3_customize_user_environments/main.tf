@@ -58,7 +58,8 @@ resource "aws_ecr_repository" "sagemaker_ecr_repository" {
 # Build and push Docker image to ECR
 resource "null_resource" "docker_build_and_push" {
   provisioner "local-exec" {
-    command = file("../custom_container_image/build_and_push_image.sh")
+    command = "sh build_and_push.sh ${aws_ecr_repository.my_repo.name}"
+    working_dir = "../customer_container_image"
     
     environment = {
       ECR_REPOSITORY_URL = "${aws_ecr_repository.sagemaker_repository.repository_url}"

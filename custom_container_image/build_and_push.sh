@@ -1,25 +1,28 @@
 #!/usr/bin/env bash
 
+# Script to build Docker image and push to ECR
 
-# Make sure we have uuidgen installed
-apt -y -q install uuid-runtime
+# Require image name argument
+if [ -z "$1" ]; then
+  echo "Usage: $0 <IMAGE_NAME>"
+  exit 1
+fi
 
-UUID=$(uuidgen)
+# Set variables 
+IMAGE_NAME=$1
+ECR_REPO="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_NAME}"
+ECR_IMAGE="${ECR_REPO}:latest"
 
+# Create ECR repo if needed
+aws ecr describe-repositories --repository-names "${IMAGE_NAME}" > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+  aws ecr create-repository --repository-name "${IMAGE_NAME}" > /dev/null
+fi
 
-fullname="${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com/${image_name}:${tag}"
+# Login to ECR 
+aws --region ${AWS_DEFAULT_REGION} ecr get-login-password | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
 
-# Get the login command from ECR and execute it directly
-aws ecr get-login-password --region ${REGION} | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${REGION}.amazonaws.com
-
-# If the repository doesn't exist in ECR, create it.
-aws ecr describe-repositories --repository-names ${image_name} || aws ecr create-repository --repository-name ${image_name}
-
-# Build the docker image locally and then push it to ECR with the full name.
-echo "BUILDING IMAGE WITH NAME ${image_name} AND TAG ${tag}"
-cd docker
-docker build --no-cache -t ${image_name} -f Dockerfile .
-docker tag ${image_name} ${fullname}
-
-echo "PUSHING IMAGE TO ECR ECR ${fullname}"
-docker push ${fullname}
+# Build and push image
+docker build -t "${IMAGE_NAME}" -f Dockerfile .
+# docker tag "${IMAGE_NAME}" "${ECR_IMAGE}"
+# docker push "${ECR_IMAGE}"

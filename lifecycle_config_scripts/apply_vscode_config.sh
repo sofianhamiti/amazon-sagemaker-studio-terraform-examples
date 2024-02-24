@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Add less for AWCLI
-apt-get update && sudo apt-get install -yy less
+apt-get update && apt-get install -yy less
 
 # Making sure the sagemaker-user folder has the correct permissions
 cd /home
