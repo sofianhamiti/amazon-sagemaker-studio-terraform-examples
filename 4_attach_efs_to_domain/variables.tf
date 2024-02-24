@@ -1,6 +1,6 @@
 variable "aws_region" {
   description = "The AWS region where resources will be provisioned."
-  type = string
+  type        = string
 }
 
 # IAM
@@ -48,16 +48,16 @@ variable "app_network_access_type" {
 
 # User
 variable "user_names" {
-  type        = list(string)
+  type = list(string)
 }
 
 # EFS Filesystem
 variable "efs_folder_path" {
-  type        = string
+  type    = string
   default = null
 }
 
 variable "lambda_mount_path" {
-  type        = string
+  type    = string
   default = null
 }

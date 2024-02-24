@@ -1,24 +1,24 @@
 # SageMaker Domain
 # Create the SageMaker domain with the specified configuration
 resource "aws_sagemaker_domain" "sagemaker_domain" {
-  domain_name           = var.domain_name
-  auth_mode             = var.auth_mode
-  vpc_id                = var.vpc_id
-  subnet_ids            = var.subnet_ids
+  domain_name             = var.domain_name
+  auth_mode               = var.auth_mode
+  vpc_id                  = var.vpc_id
+  subnet_ids              = var.subnet_ids
   app_network_access_type = var.app_network_access_type
 
   # Default user settings
   default_user_settings {
-    execution_role     = var.execution_role_arn
-    security_groups    = var.security_group_ids
+    execution_role      = var.execution_role_arn
+    security_groups     = var.security_group_ids
     default_landing_uri = "studio::"
-    studio_web_portal  = "ENABLED"
+    studio_web_portal   = "ENABLED"
 
     # Default storage settings
     space_storage_settings {
       default_ebs_storage_settings {
-        default_ebs_volume_size_in_gb  = 100
-        maximum_ebs_volume_size_in_gb  = 1024
+        default_ebs_volume_size_in_gb = 100
+        maximum_ebs_volume_size_in_gb = 1024
       }
     }
 

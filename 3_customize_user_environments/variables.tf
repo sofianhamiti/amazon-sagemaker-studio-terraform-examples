@@ -1,6 +1,6 @@
 variable "aws_region" {
   description = "The AWS region where resources will be provisioned."
-  type = string
+  type        = string
 }
 
 # IAM
@@ -48,20 +48,20 @@ variable "app_network_access_type" {
 
 # User
 variable "user_names" {
-  type        = list(string)
+  type = list(string)
 }
 
 # Optional Lifecyle Config Script For Code Editor
 variable "vscode_config_script" {
-  type        = string
+  type = string
 }
 
 # Enforced Lifecyle Config Script For Code Editor
 variable "vscode_autoshutdown_script" {
-  type        = string
+  type = string
 }
 
 # Enforced Lifecyle Config Script For Code Editor
 variable "ecr_repository_name" {
-  type        = string
+  type = string
 }

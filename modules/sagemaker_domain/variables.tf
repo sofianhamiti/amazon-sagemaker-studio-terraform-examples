@@ -14,32 +14,32 @@ variable "app_network_access_type" {
 }
 
 variable "vpc_id" {
-  type        = string
+  type = string
 }
 
 variable "subnet_ids" {
-  type        = list(string)
+  type = list(string)
 }
 
 variable "execution_role_arn" {
-  type        = string
+  type = string
 }
 
 variable "security_group_ids" {
-  type        = list(string)
+  type = list(string)
 }
 
 variable "lifecycle_config_arns" {
-  type        = list(string)
+  type    = list(string)
   default = null
 }
 
 variable "efs_file_system_id" {
-  type        = string
+  type    = string
   default = null
 }
 
 variable "efs_folder_path" {
-  type        = string
+  type    = string
   default = null
 }

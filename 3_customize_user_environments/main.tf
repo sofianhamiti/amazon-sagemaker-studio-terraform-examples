@@ -16,15 +16,15 @@ module "sagemaker_domain_vpc" {
 # Studio Domain
 # Create the SageMaker domain, associating it with the VPC, execution role, security groups, and lifecycle configuration
 module "sagemaker_domain" {
-  source                = "../modules/sagemaker_domain"
-  domain_name           = var.domain_name
-  auth_mode             = var.auth_mode
+  source                  = "../modules/sagemaker_domain"
+  domain_name             = var.domain_name
+  auth_mode               = var.auth_mode
   app_network_access_type = var.app_network_access_type
-  vpc_id                = module.sagemaker_domain_vpc.vpc_id
-  subnet_ids            = module.sagemaker_domain_vpc.private_subnet_ids
-  execution_role_arn    = module.sagemaker_domain_execution_role.role_arn
-  security_group_ids    = module.sagemaker_domain_vpc.security_group_ids
-  lifecycle_config_arns = [aws_sagemaker_studio_lifecycle_config.code_editor.arn]
+  vpc_id                  = module.sagemaker_domain_vpc.vpc_id
+  subnet_ids              = module.sagemaker_domain_vpc.private_subnet_ids
+  execution_role_arn      = module.sagemaker_domain_execution_role.role_arn
+  security_group_ids      = module.sagemaker_domain_vpc.security_group_ids
+  lifecycle_config_arns   = [aws_sagemaker_studio_lifecycle_config.code_editor.arn]
 }
 
 # Loop through list of users for creation
@@ -52,15 +52,15 @@ resource "aws_sagemaker_studio_lifecycle_config" "code_editor" {
 # Custom images
 # Create ECR repository
 resource "aws_ecr_repository" "sagemaker_ecr_repository" {
-  name                 = var.ecr_repository_name
+  name = var.ecr_repository_name
 }
 
 # Build and push Docker image to ECR
 resource "null_resource" "docker_build_and_push" {
   provisioner "local-exec" {
-    command = "sh build_and_push.sh ${aws_ecr_repository.my_repo.name}"
+    command     = "sh build_and_push.sh ${aws_ecr_repository.my_repo.name}"
     working_dir = "../customer_container_image"
-    
+
     environment = {
       ECR_REPOSITORY_URL = "${aws_ecr_repository.sagemaker_repository.repository_url}"
       IMAGE_TAG          = "${sha256(file("${path.module}/build_and_push_image.sh"))}"
