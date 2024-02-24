@@ -22,5 +22,5 @@ user_names = ["user1", "user2"]
 vscode_config_script       = "apply_vscode_config.sh"
 vscode_autoshutdown_script = "  autoshutdown.sh"
 
-# CUSTOM IMAGES
-ecr_repository_name = "test-repo"
+# CUSTOM CONTAINER IMAGES
+image_name = "pythonimage"

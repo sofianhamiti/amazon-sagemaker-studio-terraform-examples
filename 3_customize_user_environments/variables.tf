@@ -61,7 +61,7 @@ variable "vscode_autoshutdown_script" {
   type = string
 }
 
-# Enforced Lifecyle Config Script For Code Editor
-variable "ecr_repository_name" {
+# Custom Container Image
+variable "image_name" {
   type = string
 }

@@ -10,13 +10,13 @@ fi
 
 
 # Get the account number associated with the current IAM credentials
-AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
-if [[ $? -ne 0 ]]
-then
-    exit 25
-fi
+# AWS_ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+# if [[ $? -ne 0 ]]
+# then
+#     exit 25
+# fi
 
-AWS_DEFAULT_REGION=$(aws configure get region)
+# AWS_DEFAULT_REGION=$(aws configure get region)
 
 # Set variables 
 IMAGE_NAME=$1
