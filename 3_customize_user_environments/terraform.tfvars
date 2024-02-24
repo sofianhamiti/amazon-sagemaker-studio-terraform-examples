@@ -23,4 +23,4 @@ vscode_config_script       = "apply_vscode_config.sh"
 vscode_autoshutdown_script = "  autoshutdown.sh"
 
 # CUSTOM CONTAINER IMAGES
-image_name = "pythonimage"
+image_name = "exampleimage"

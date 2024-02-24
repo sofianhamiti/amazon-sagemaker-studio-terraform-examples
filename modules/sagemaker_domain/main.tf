@@ -1,4 +1,3 @@
-# SageMaker Domain
 # Create the SageMaker domain with the specified configuration
 resource "aws_sagemaker_domain" "sagemaker_domain" {
   domain_name             = var.domain_name

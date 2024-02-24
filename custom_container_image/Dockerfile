@@ -1,5 +1,7 @@
-
 FROM public.ecr.aws/sagemaker/sagemaker-distribution:latest-cpu
+
+# See documentation for more info https://docs.aws.amazon.com/sagemaker/latest/dg/studio-updated-jl-image-specifications.html
+
 ARG NB_USER="sagemaker-user"
 ARG NB_UID=1000
 ARG NB_GID=100

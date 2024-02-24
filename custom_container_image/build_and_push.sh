@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 # Script to build Docker image and push to ECR
-
 # Require image name argument
 if [ -z "$1" ]; then
   echo "Usage: $0 <IMAGE_NAME>"
