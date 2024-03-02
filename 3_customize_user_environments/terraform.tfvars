@@ -19,8 +19,12 @@ app_network_access_type = "VpcOnly"
 user_names = ["user1", "user2"]
 
 # LIFECYCLE CONFIGS
-vscode_config_script       = "apply_vscode_config.sh"
-vscode_autoshutdown_script = "  autoshutdown.sh"
+lcc_name_vscode   = "vscode-config"
+lcc_script_vscode = "vscode_config.sh"
+
+lcc_name_jupyterlab   = "jupyterlab-config"
+lcc_script_jupyterlab = "jupyterlab_config.sh"
+
 
 # CUSTOM CONTAINER IMAGES
 image_name = "exampleimage"

@@ -29,11 +29,6 @@ variable "security_group_ids" {
   type = list(string)
 }
 
-variable "lifecycle_config_arns" {
-  type    = list(string)
-  default = null
-}
-
 variable "efs_file_system_id" {
   type    = string
   default = null
@@ -41,5 +36,15 @@ variable "efs_file_system_id" {
 
 variable "efs_folder_path" {
   type    = string
+  default = null
+}
+
+variable "jupyterlab_lifecycle_config_arns" {
+  type    = list(string)
+  default = null
+}
+
+variable "vscode_lifecycle_config_arns" {
+  type    = list(string)
   default = null
 }

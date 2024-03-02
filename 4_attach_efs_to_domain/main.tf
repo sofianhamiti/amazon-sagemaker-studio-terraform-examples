@@ -13,6 +13,18 @@ module "sagemaker_domain_vpc" {
   availability_zones   = var.availability_zones
 }
 
+# EFS module
+module "sagemaker_efs" {
+  source             = "../modules/sagemaker_efs"
+  private_subnet_ids = module.sagemaker_domain_vpc.private_subnet_ids
+  security_group_ids = module.sagemaker_domain_vpc.security_group_ids
+  lambda_role_arn    = module.sagemaker_domain_execution_role.role_arn
+  lambda_mount_path  = var.lambda_mount_path
+  efs_folder_path    = var.efs_folder_path
+
+  depends_on = [module.sagemaker_domain_vpc, module.sagemaker_domain_execution_role]
+}
+
 # Studio Domain
 # Create the SageMaker domain, associating it with the VPC, execution role, security groups, and lifecycle configuration
 module "sagemaker_domain" {
@@ -35,16 +47,4 @@ module "sagemaker_user" {
   source    = "../modules/sagemaker_user"
   domain_id = module.sagemaker_domain.domain_id
   user_name = each.value
-}
-
-# EFS module
-module "sagemaker_efs" {
-  source             = "../modules/sagemaker_efs"
-  private_subnet_ids = module.sagemaker_domain_vpc.private_subnet_ids
-  security_group_ids = module.sagemaker_domain_vpc.security_group_ids
-  lambda_role_arn    = module.sagemaker_domain_execution_role.role_arn
-  lambda_mount_path  = var.lambda_mount_path
-  efs_folder_path    = var.efs_folder_path
-
-  depends_on = [module.sagemaker_domain_vpc, module.sagemaker_domain_execution_role]
 }

@@ -39,12 +39,12 @@ resource "aws_security_group" "sagemaker_sg" {
   }
 
   ingress {
-    description = "Allow NFS traffic for EFS"
-    from_port   = 2049
-    to_port     = 2049
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"] 
+    description      = "Allow NFS traffic for EFS"
+    from_port        = 2049
+    to_port          = 2049
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
   }
 }
 

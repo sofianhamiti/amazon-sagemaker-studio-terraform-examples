@@ -19,4 +19,4 @@ aws s3 cp s3://vscode-config/config.zip .
 unzip -o config.zip 
 
 # Install dependencies
-# pip install mlflow
+pip install mlflow

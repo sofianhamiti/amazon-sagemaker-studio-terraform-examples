@@ -36,19 +36,20 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
     # OPTIONAL CONFIG FOR CODE EDITOR
     # If lifecycle_config_arns is provided, configure the code editor app settings
     dynamic "code_editor_app_settings" {
-      for_each = var.lifecycle_config_arns != null ? [1] : []
+      for_each = var.vscode_lifecycle_config_arns != null ? [1] : []
       content {
-        lifecycle_config_arns = var.lifecycle_config_arns
+        lifecycle_config_arns = var.vscode_lifecycle_config_arns
       }
     }
 
     # OPTIONAL CONFIG FOR JUPYTERLAB
     # If lifecycle_config_arns is provided, configure the code editor app settings
     dynamic "jupyter_lab_app_settings" {
-      for_each = var.lifecycle_config_arns != null ? [1] : []
+      for_each = var.jupyterlab_lifecycle_config_arns != null ? [1] : []
       content {
-        lifecycle_config_arns = var.lifecycle_config_arns
+        lifecycle_config_arns = var.jupyterlab_lifecycle_config_arns
       }
     }
+
   }
 }

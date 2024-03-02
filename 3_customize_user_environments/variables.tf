@@ -52,12 +52,19 @@ variable "user_names" {
 }
 
 # Optional Lifecyle Config Script For Code Editor
-variable "vscode_config_script" {
+variable "lcc_name_vscode" {
   type = string
 }
 
-# Enforced Lifecyle Config Script For Code Editor
-variable "vscode_autoshutdown_script" {
+variable "lcc_script_vscode" {
+  type = string
+}
+
+variable "lcc_name_jupyterlab" {
+  type = string
+}
+
+variable "lcc_script_jupyterlab" {
   type = string
 }
 
