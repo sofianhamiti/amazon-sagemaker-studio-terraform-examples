@@ -24,7 +24,7 @@ module "sagemaker_domain" {
   subnet_ids              = module.sagemaker_domain_vpc.private_subnet_ids
   execution_role_arn      = module.sagemaker_domain_execution_role.role_arn
   security_group_ids      = module.sagemaker_domain_vpc.security_group_ids
-  efs_file_system_id      = aws_efs_file_system.sagemaker_efs.id
+  efs_file_system_id      = module.sagemaker_efs.efs_file_system_id
   efs_folder_path         = var.efs_folder_path
 }
 
@@ -37,68 +37,14 @@ module "sagemaker_user" {
   user_name = each.value
 }
 
-# EFS file system
-# Create an Elastic File System (EFS) for the SageMaker domain
-resource "aws_efs_file_system" "sagemaker_efs" {
-  encrypted = true
-}
+# EFS module
+module "sagemaker_efs" {
+  source             = "../modules/sagemaker_efs"
+  private_subnet_ids = module.sagemaker_domain_vpc.private_subnet_ids
+  security_group_ids = module.sagemaker_domain_vpc.security_group_ids
+  lambda_role_arn    = module.sagemaker_domain_execution_role.role_arn
+  lambda_mount_path  = var.lambda_mount_path
+  efs_folder_path    = var.efs_folder_path
 
-# EFS mount targets
-# Create EFS mount targets in the private subnets
-resource "aws_efs_mount_target" "sagemaker_efs_mount_targets" {
-  count           = length(module.sagemaker_domain_vpc.private_subnet_ids)
-  file_system_id  = aws_efs_file_system.sagemaker_efs.id
-  subnet_id       = module.sagemaker_domain_vpc.private_subnet_ids[count.index]
-  security_groups = module.sagemaker_domain_vpc.security_group_ids
-}
-
-# EFS access point used by Lambda
-# Create an EFS access point for the Lambda function
-resource "aws_efs_access_point" "access_point_for_lambda" {
-  file_system_id = aws_efs_file_system.sagemaker_efs.id
-  posix_user {
-    gid = 0
-    uid = 0
-  }
-}
-
-# Lambda Function handling the EFS folder creation
-# Create a Lambda function, configured to access the EFS file system, with the necessary environment variables and VPC settings
-data "archive_file" "lambda_zip" {
-  type        = "zip"
-  source_file = "../lambda_efs_code/handler.py"
-  output_path = "../lambda_efs_code/lambda.zip"
-}
-
-resource "aws_lambda_function" "create_folder_in_efs" {
-  filename      = "../lambda_efs_code/lambda.zip"
-  function_name = "sagemaker-efs-handler"
-  role          = module.sagemaker_domain_execution_role.role_arn
-  handler       = "handler.lambda_handler"
-  runtime       = "python3.12"
-  file_system_config {
-    arn              = aws_efs_access_point.access_point_for_lambda.arn
-    local_mount_path = var.lambda_mount_path
-  }
-  environment {
-    variables = {
-      lambda_mount_path = var.lambda_mount_path
-      efs_folder_path   = var.efs_folder_path
-    }
-  }
-  vpc_config {
-    subnet_ids         = module.sagemaker_domain_vpc.private_subnet_ids
-    security_group_ids = module.sagemaker_domain_vpc.security_group_ids
-  }
-  depends_on = [
-    aws_efs_mount_target.sagemaker_efs_mount_targets,
-    aws_efs_access_point.access_point_for_lambda
-  ]
-}
-
-# Invoke the Lambda Function
-# Invoke the Lambda function to create a folder in the EFS file system
-resource "aws_lambda_invocation" "lambda_invocation" {
-  function_name = aws_lambda_function.create_folder_in_efs.function_name
-  input         = "{}"
+  depends_on = [module.sagemaker_domain_vpc, module.sagemaker_domain_execution_role]
 }

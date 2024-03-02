@@ -37,6 +37,15 @@ resource "aws_security_group" "sagemaker_sg" {
     cidr_blocks      = ["0.0.0.0/0"]
     ipv6_cidr_blocks = ["::/0"]
   }
+
+  ingress {
+    description = "Allow NFS traffic for EFS"
+    from_port   = 2049
+    to_port     = 2049
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"] 
+  }
 }
 
 # Security Group for VPC Endpoints
