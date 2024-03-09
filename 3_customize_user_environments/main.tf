@@ -5,33 +5,34 @@ module "sagemaker_domain_execution_role" {
 }
 
 # VPC module
-module "sagemaker_domain_vpc" {
-  source               = "../modules/vpc"
-  cidr_block           = var.cidr_block
-  public_subnet_cidrs  = var.public_subnet_cidrs
-  private_subnet_cidrs = var.private_subnet_cidrs
-  availability_zones   = var.availability_zones
-}
+# module "sagemaker_domain_vpc" {
+#   source               = "../modules/vpc"
+#   cidr_block           = var.cidr_block
+#   public_subnet_cidrs  = var.public_subnet_cidrs
+#   private_subnet_cidrs = var.private_subnet_cidrs
+#   availability_zones   = var.availability_zones
+# }
 
 # Customize the environment for users using lifecycle configs
-module "jupyterlab_config" {
-  source            = "../modules/sagemaker_lifecycle_config"
-  lcc_name          = var.lcc_name_jupyterlab
-  lcc_config_script = var.lcc_script_jupyterlab
-  app_type          = "JupyterLab" # 'CodeEditor' or 'JupyterLab'
-}
+# module "jupyterlab_config" {
+#   source            = "../modules/sagemaker_lifecycle_config"
+#   lcc_name          = var.lcc_name_jupyterlab
+#   lcc_config_script = var.lcc_script_jupyterlab
+#   app_type          = "JupyterLab" # 'CodeEditor' or 'JupyterLab'
+# }
 
-module "vscode_config" {
-  source            = "../modules/sagemaker_lifecycle_config"
-  lcc_name          = var.lcc_name_vscode
-  lcc_config_script = var.lcc_script_vscode
-  app_type          = "CodeEditor" # 'CodeEditor' or 'JupyterLab'
-}
+# module "vscode_config" {
+#   source            = "../modules/sagemaker_lifecycle_config"
+#   lcc_name          = var.lcc_name_vscode
+#   lcc_config_script = var.lcc_script_vscode
+#   app_type          = "CodeEditor" # 'CodeEditor' or 'JupyterLab'
+# }
 
 # Customize the environment for users using custom container images
 module "custom_container_image" {
   source         = "../modules/sagemaker_custom_image"
   image_name     = var.image_name
+  aws_region     = var.aws_region
   execution_role = module.sagemaker_domain_execution_role.role_arn
 }
 
