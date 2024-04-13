@@ -69,6 +69,18 @@ variable "lcc_script_jupyterlab" {
 }
 
 # Custom Container Image
-variable "image_name" {
+variable "image_name_jupyterlab" {
+  type = string
+}
+
+variable "image_folder_jupyterlab" {
+  type = string
+}
+
+variable "image_name_vscode" {
+  type = string
+}
+
+variable "image_folder_vscode" {
   type = string
 }

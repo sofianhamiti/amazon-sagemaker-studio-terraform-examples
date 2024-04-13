@@ -4,6 +4,7 @@ module "sagemaker_domain_execution_role" {
   execution_role_name = var.execution_role_name
 }
 
+
 # VPC module
 # module "sagemaker_domain_vpc" {
 #   source               = "../modules/vpc"
@@ -13,7 +14,8 @@ module "sagemaker_domain_execution_role" {
 #   availability_zones   = var.availability_zones
 # }
 
-# Customize the environment for users using lifecycle configs
+
+# Customize user environments using lifecycle configs
 # module "jupyterlab_config" {
 #   source            = "../modules/sagemaker_lifecycle_config"
 #   lcc_name          = var.lcc_name_jupyterlab
@@ -28,10 +30,20 @@ module "sagemaker_domain_execution_role" {
 #   app_type          = "CodeEditor" # 'CodeEditor' or 'JupyterLab'
 # }
 
-# Customize the environment for users using custom container images
-module "custom_container_image" {
+
+# Customize user environments using custom container images
+module "custom_container_image_jupyterlab" {
   source         = "../modules/sagemaker_custom_image"
-  image_name     = var.image_name
+  image_name     = var.image_name_jupyterlab
+  image_folder   = var.image_folder_jupyterlab
+  aws_region     = var.aws_region
+  execution_role = module.sagemaker_domain_execution_role.role_arn
+}
+
+module "custom_container_image_vscode" {
+  source         = "../modules/sagemaker_custom_image"
+  image_name     = var.image_name_vscode
+  image_folder   = var.image_folder_vscode
   aws_region     = var.aws_region
   execution_role = module.sagemaker_domain_execution_role.role_arn
 }
@@ -51,6 +63,7 @@ module "custom_container_image" {
 #   jupyterlab_lifecycle_config_arns = [module.jupyterlab_config.config_arn]
 #   vscode_lifecycle_config_arns     = [module.vscode_config.config_arn]
 # }
+
 
 # # Loop through list of users for creation
 # # Create SageMaker users for the domain, looping through a list of user names

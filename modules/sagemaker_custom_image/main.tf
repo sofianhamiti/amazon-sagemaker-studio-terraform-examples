@@ -17,7 +17,7 @@ locals {
 # Build and push Docker image to ECR
 resource "null_resource" "docker_build_and_push" {
   provisioner "local-exec" {
-    working_dir = "${path.module}/custom_container_images/example"
+    working_dir = "${path.module}/custom_container_images/${var.image_folder}"
     command     = "sh build_and_push.sh ${aws_ecr_repository.repository.name}"
     environment = {
       AWS_ACCOUNT_ID     = data.aws_caller_identity.current.account_id

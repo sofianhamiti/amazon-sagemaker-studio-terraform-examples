@@ -25,6 +25,9 @@ lcc_script_vscode = "vscode_config.sh"
 lcc_name_jupyterlab   = "jupyterlab-config"
 lcc_script_jupyterlab = "jupyterlab_config.sh"
 
-
 # CUSTOM CONTAINER IMAGES
-image_name = "exampleimage"
+image_name_jupyterlab   = "jupyterlab-image"
+image_folder_jupyterlab = "jupyterlab"
+
+image_name_vscode   = "vscode-image"
+image_folder_vscode = "vscode"
