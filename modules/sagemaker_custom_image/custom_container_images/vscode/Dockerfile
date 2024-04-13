@@ -28,4 +28,4 @@ ENTRYPOINT ["entrypoint-code-editor"]
 
 # install additional libraries
 RUN pip install --no-cache --upgrade \
-    mlflow
+    mlflow==2.11.1

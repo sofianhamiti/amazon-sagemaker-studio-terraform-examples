@@ -1,11 +1,9 @@
 # See documentation for more info https://docs.aws.amazon.com/sagemaker/latest/dg/studio-updated-jl-image-specifications.html
 
 FROM public.ecr.aws/sagemaker/sagemaker-distribution:latest-cpu
-
 ARG NB_USER="sagemaker-user"
 ARG NB_UID=1000
 ARG NB_GID=100
-
 ENV MAMBA_USER=$NB_USER
 
 USER root
@@ -17,7 +15,7 @@ USER $MAMBA_USER
 
 ENTRYPOINT ["jupyter-lab"]
 CMD ["--ServerApp.ip=0.0.0.0", "--ServerApp.port=8888", "--ServerApp.allow_origin=*", "--ServerApp.token=''", "--ServerApp.base_url=/jupyterlab/default"]                
-            
+
 # install additional libraries
 RUN pip install --no-cache --upgrade \
-    mlflow
+    mlflow==2.11.1
