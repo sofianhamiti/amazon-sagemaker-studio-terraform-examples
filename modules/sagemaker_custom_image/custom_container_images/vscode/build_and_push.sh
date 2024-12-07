@@ -11,7 +11,8 @@ aws --region ${AWS_REGION} ecr get-login-password | docker login --username AWS 
 
 # Build and push image
 echo "BUILDING IMAGE ${IMAGE_NAME}"
-docker build -t "${IMAGE_NAME}" -f Dockerfile .
+# docker build -t "${IMAGE_NAME}" -f Dockerfile .
+docker build -t "${IMAGE_NAME}" -f Dockerfile . --network sagemaker
 docker tag "${IMAGE_NAME}" "${ECR_IMAGE}"
 
 echo "PUSHING IMAGE TO ECR ${ECR_IMAGE}"

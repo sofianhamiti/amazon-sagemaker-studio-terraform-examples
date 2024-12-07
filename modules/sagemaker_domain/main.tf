@@ -49,6 +49,11 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
       content {
         lifecycle_config_arns = var.jupyterlab_lifecycle_config_arns
       }
+      # for_each = (var.jupyterlab_lifecycle_config_arns != null || var.custom_image != null) ? [1] : []
+      # content {
+      #   lifecycle_config_arns = var.jupyterlab_lifecycle_config_arns
+      #   custom_image = var.custom_image
+      # }
     }
 
   }

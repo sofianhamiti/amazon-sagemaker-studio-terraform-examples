@@ -29,5 +29,5 @@ lcc_script_jupyterlab = "jupyterlab_config.sh"
 image_name_jupyterlab   = "jupyterlab-image"
 image_folder_jupyterlab = "jupyterlab"
 
-image_name_vscode   = "vscode-image"
+image_name_vscode   = "vscode-image-copilot"
 image_folder_vscode = "vscode"

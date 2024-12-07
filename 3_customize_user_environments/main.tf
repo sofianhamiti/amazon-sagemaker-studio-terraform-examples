@@ -32,13 +32,13 @@ module "sagemaker_domain_execution_role" {
 
 
 # Customize user environments using custom container images
-module "custom_container_image_jupyterlab" {
-  source         = "../modules/sagemaker_custom_image"
-  image_name     = var.image_name_jupyterlab
-  image_folder   = var.image_folder_jupyterlab
-  aws_region     = var.aws_region
-  execution_role = module.sagemaker_domain_execution_role.role_arn
-}
+# module "custom_container_image_jupyterlab" {
+#   source         = "../modules/sagemaker_custom_image"
+#   image_name     = var.image_name_jupyterlab
+#   image_folder   = var.image_folder_jupyterlab
+#   aws_region     = var.aws_region
+#   execution_role = module.sagemaker_domain_execution_role.role_arn
+# }
 
 module "custom_container_image_vscode" {
   source         = "../modules/sagemaker_custom_image"
