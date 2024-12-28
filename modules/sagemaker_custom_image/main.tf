@@ -51,10 +51,5 @@ resource "aws_sagemaker_image_version" "image_version" {
 
 resource "aws_sagemaker_app_image_config" "image_config" {
   app_image_config_name = var.image_name
-  jupyter_lab_image_config {
-    container_config {
-
-    }
-  }
   depends_on = [aws_sagemaker_image_version.image_version]
 }

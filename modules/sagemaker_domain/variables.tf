@@ -39,12 +39,25 @@ variable "efs_folder_path" {
   default = null
 }
 
-variable "jupyterlab_lifecycle_config_arns" {
-  type    = list(string)
+variable "vscode_settings" {
+  description = "Settings for VS Code editor"
+  type = object({
+    lifecycle_config_arns     = optional(list(string))
+    idle_timeout_in_minutes   = optional(number)
+    min_idle_timeout_in_minutes = optional(number)
+    max_idle_timeout_in_minutes = optional(number)
+    image_name                = optional(string)
+  })
   default = null
 }
 
-variable "vscode_lifecycle_config_arns" {
-  type    = list(string)
+variable "jupyter_settings" {
+  description = "Settings for JupyterLab"
+  type = object({
+    lifecycle_config_arns     = optional(list(string))
+    idle_timeout_in_minutes   = optional(number)
+    min_idle_timeout_in_minutes = optional(number)
+    max_idle_timeout_in_minutes = optional(number)
+  })
   default = null
 }

@@ -30,4 +30,6 @@ USER $MAMBA_USER
 
 WORKDIR /home/sagemaker-user
 
-ENTRYPOINT ["code-server", "--auth", "none", "--bind-addr", "0.0.0.0:8888/codeeditor/default/proxy/8888/", "--user-data-dir=/home/sagemaker-user/vscode-config"]                        
+# /home/sagemaker-user/.config/code-server/config.yaml  
+
+ENTRYPOINT ["code-server", "--auth", "none", "--bind-addr", "0.0.0.0:8888", "--base-path" "/codeeditor/default/"]                        

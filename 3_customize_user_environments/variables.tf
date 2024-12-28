@@ -1,3 +1,4 @@
+# Region
 variable "aws_region" {
   description = "The AWS region where resources will be provisioned."
   type        = string
@@ -48,39 +49,100 @@ variable "app_network_access_type" {
 
 # User
 variable "user_names" {
-  type = list(string)
+  description = "List of user names to create in the domain"
+  type        = list(string)
+  default     = []
 }
 
-# Optional Lifecyle Config Script For Code Editor
+# Lifecycle Config Scripts
 variable "lcc_name_vscode" {
-  type = string
+  description = "Name of the lifecycle configuration for VS Code"
+  type        = string
+  default     = null
 }
 
 variable "lcc_script_vscode" {
-  type = string
+  description = "Lifecycle configuration script for VS Code"
+  type        = string
+  default     = null
 }
 
 variable "lcc_name_jupyterlab" {
-  type = string
+  description = "Name of the lifecycle configuration for JupyterLab"
+  type        = string
+  default     = null
 }
 
 variable "lcc_script_jupyterlab" {
-  type = string
+  description = "Lifecycle configuration script for JupyterLab"
+  type        = string
+  default     = null
 }
 
-# Custom Container Image
-variable "image_name_jupyterlab" {
-  type = string
-}
-
-variable "image_folder_jupyterlab" {
-  type = string
-}
-
+# Custom Container Images
 variable "image_name_vscode" {
-  type = string
+  description = "Name for the VS Code custom container image"
+  type        = string
+  default     = null
 }
 
 variable "image_folder_vscode" {
-  type = string
+  description = "Folder containing VS Code custom container image files"
+  type        = string
+  default     = null
+}
+
+variable "image_name_jupyterlab" {
+  description = "Name for the JupyterLab custom container image"
+  type        = string
+  default     = null
+}
+
+variable "image_folder_jupyterlab" {
+  description = "Folder containing JupyterLab custom container image files"
+  type        = string
+  default     = null
+}
+
+# App Settings
+variable "vscode_settings" {
+  description = "Settings for VS Code editor"
+  type = object({
+    lifecycle_config_arns        = optional(list(string))
+    idle_timeout_in_minutes      = optional(number)
+    min_idle_timeout_in_minutes  = optional(number)
+    max_idle_timeout_in_minutes  = optional(number)
+    image_name                   = optional(string)
+  })
+  default = null
+}
+
+variable "jupyter_settings" {
+  description = "Settings for JupyterLab"
+  type = object({
+    lifecycle_config_arns        = optional(list(string))
+    idle_timeout_in_minutes      = optional(number)
+    min_idle_timeout_in_minutes  = optional(number)
+    max_idle_timeout_in_minutes  = optional(number)
+  })
+  default = null
+}
+
+# Idle Timeout Settings (if not using vscode_settings or jupyter_settings)
+variable "default_idle_timeout" {
+  description = "Default idle timeout in minutes"
+  type        = number
+  default     = 60
+}
+
+variable "min_idle_timeout" {
+  description = "Minimum idle timeout in minutes"
+  type        = number
+  default     = 60
+}
+
+variable "max_idle_timeout" {
+  description = "Maximum idle timeout in minutes"
+  type        = number
+  default     = 240
 }
