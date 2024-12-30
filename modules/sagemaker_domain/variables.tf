@@ -42,11 +42,13 @@ variable "efs_folder_path" {
 variable "vscode_settings" {
   description = "Settings for VS Code editor"
   type = object({
-    lifecycle_config_arns     = optional(list(string))
-    idle_timeout_in_minutes   = optional(number)
+    lifecycle_config_arns       = optional(list(string))
+    idle_timeout_in_minutes     = optional(number)
     min_idle_timeout_in_minutes = optional(number)
     max_idle_timeout_in_minutes = optional(number)
-    image_name                = optional(string)
+    image_name                  = optional(string)
+    image_version               = optional(string)
+    app_image_config_name       = optional(string)
   })
   default = null
 }

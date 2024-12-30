@@ -1,9 +1,4 @@
 #######################
-# Regional Settings
-#######################
-aws_region = "eu-west-1"
-
-#######################
 # IAM Configuration
 #######################
 execution_role_name = "sagemaker_domain_exec_role_default"
@@ -55,4 +50,4 @@ max_idle_timeout   = 240
 #######################
 # SageMaker Users
 #######################
-user_names = ["user1", "user2"]
+user_names = ["user1"]

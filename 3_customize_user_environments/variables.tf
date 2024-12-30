@@ -1,9 +1,3 @@
-# Region
-variable "aws_region" {
-  description = "The AWS region where resources will be provisioned."
-  type        = string
-}
-
 # IAM
 variable "execution_role_name" {
   description = "Name for the default role used in the SageMaker domain"
@@ -113,6 +107,7 @@ variable "vscode_settings" {
     min_idle_timeout_in_minutes  = optional(number)
     max_idle_timeout_in_minutes  = optional(number)
     image_name                   = optional(string)
+    image_version                   = optional(string)
   })
   default = null
 }

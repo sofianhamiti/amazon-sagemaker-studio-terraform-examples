@@ -1,3 +1,5 @@
+data "aws_region" "current" {}
+
 # IAM role module
 module "sagemaker_domain_execution_role" {
   source              = "../modules/iam"
@@ -33,7 +35,7 @@ module "custom_container_image_vscode" {
   source         = "../modules/sagemaker_custom_image"
   image_name     = var.image_name_vscode
   image_folder   = var.image_folder_vscode
-  aws_region     = var.aws_region
+  aws_region     = data.aws_region.current.name
   execution_role = module.sagemaker_domain_execution_role.role_arn
 }
 
@@ -54,7 +56,9 @@ module "sagemaker_domain" {
     idle_timeout_in_minutes     = var.default_idle_timeout
     min_idle_timeout_in_minutes = var.min_idle_timeout
     max_idle_timeout_in_minutes = var.max_idle_timeout
-    image_name                  = var.image_name_vscode
+    image_name                  = module.custom_container_image_vscode.image_name
+    image_version               = module.custom_container_image_vscode.image_version
+    app_image_config_name       = module.custom_container_image_vscode.app_image_config_name
   }
 
   # JupyterLab settings
@@ -64,4 +68,13 @@ module "sagemaker_domain" {
     min_idle_timeout_in_minutes = var.min_idle_timeout
     max_idle_timeout_in_minutes = var.max_idle_timeout
   }
+}
+
+# Loop through list of users for creation
+# Create SageMaker users for the domain, looping through a list of user names
+module "sagemaker_user" {
+  for_each  = { for user in var.user_names : user => user }
+  source    = "../modules/sagemaker_user"
+  domain_id = module.sagemaker_domain.domain_id
+  user_name = each.value
 }

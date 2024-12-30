@@ -1,7 +1,6 @@
 # Get Account ID
 data "aws_caller_identity" "current" {}
 
-
 # ECR repository
 resource "aws_ecr_repository" "repository" {
   name = var.image_name
@@ -35,7 +34,6 @@ resource "null_resource" "docker_build_and_push" {
   depends_on = [aws_ecr_repository.repository]
 }
 
-
 # Create SageMaker Image
 resource "aws_sagemaker_image" "image" {
   image_name = var.image_name
@@ -44,12 +42,15 @@ resource "aws_sagemaker_image" "image" {
 }
 
 resource "aws_sagemaker_image_version" "image_version" {
-  image_name = var.image_name
+  image_name = aws_sagemaker_image.image.image_name
   base_image = local.ecr_image_uri
   depends_on = [aws_sagemaker_image.image]
 }
 
 resource "aws_sagemaker_app_image_config" "image_config" {
-  app_image_config_name = var.image_name
+  app_image_config_name = "${aws_sagemaker_image.image.image_name}-${local.ecr_image_tag}"
+  code_editor_app_image_config {
+    container_config {}
+  }
   depends_on = [aws_sagemaker_image_version.image_version]
 }

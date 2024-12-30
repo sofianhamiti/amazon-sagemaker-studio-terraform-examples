@@ -1,6 +1,3 @@
-# REGION
-aws_region = "eu-west-1"
-
 # IAM
 execution_role_name = "sagemaker_domain_exec_role_default"
 

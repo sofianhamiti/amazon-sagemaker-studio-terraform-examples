@@ -55,8 +55,9 @@ resource "aws_sagemaker_domain" "sagemaker_domain" {
         dynamic "custom_image" {
           for_each = try(var.vscode_settings.image_name, null) != null ? [1] : []
           content {
-            app_image_config_name = var.vscode_settings.image_name
             image_name           = var.vscode_settings.image_name
+            image_version_number = var.vscode_settings.image_version
+            app_image_config_name = var.vscode_settings.app_image_config_name
           }
         }
       }
